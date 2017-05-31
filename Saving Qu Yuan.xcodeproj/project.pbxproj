@@ -9,25 +9,35 @@
 /* Begin PBXBuildFile section */
 		D038D5E91EDC12BF0067F2D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D038D5E81EDC12BF0067F2D7 /* AppDelegate.swift */; };
 		D038D5EB1EDC12C00067F2D7 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D038D5EA1EDC12C00067F2D7 /* GameScene.sks */; };
-		D038D5ED1EDC12C00067F2D7 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D038D5EC1EDC12C00067F2D7 /* Actions.sks */; };
 		D038D5EF1EDC12C00067F2D7 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D038D5EE1EDC12C00067F2D7 /* GameScene.swift */; };
 		D038D5F11EDC12C00067F2D7 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D038D5F01EDC12C00067F2D7 /* GameViewController.swift */; };
 		D038D5F41EDC12C00067F2D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D038D5F21EDC12C00067F2D7 /* Main.storyboard */; };
 		D038D5F61EDC12C00067F2D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D038D5F51EDC12C00067F2D7 /* Assets.xcassets */; };
 		D038D5F91EDC12C00067F2D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D038D5F71EDC12C00067F2D7 /* LaunchScreen.storyboard */; };
+		D038D6041EDC12F10067F2D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D038D6061EDC12F10067F2D7 /* InfoPlist.strings */; };
+		D0D3FE611EDEF0F600E172E2 /* QYAvgSpeedNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D3FE601EDEF0F600E172E2 /* QYAvgSpeedNode.swift */; };
+		D0E4E75E1EDF094600C05A0E /* QYScoreBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E4E75D1EDF094600C05A0E /* QYScoreBoard.swift */; };
+		D0E4E7601EDF0EC200C05A0E /* QYRandomHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E4E75F1EDF0EC200C05A0E /* QYRandomHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D038D5E51EDC12BF0067F2D7 /* Saving Qu Yuan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Saving Qu Yuan.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D038D5E81EDC12BF0067F2D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D038D5EA1EDC12C00067F2D7 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		D038D5EC1EDC12C00067F2D7 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		D038D5EE1EDC12C00067F2D7 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		D038D5F01EDC12C00067F2D7 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		D038D5F31EDC12C00067F2D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D038D5F51EDC12C00067F2D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D038D5F81EDC12C00067F2D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D038D5FA1EDC12C00067F2D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D038D6001EDC12D70067F2D7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		D038D6011EDC12D70067F2D7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		D038D6051EDC12F10067F2D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D038D6071EDC12F30067F2D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D038D6081EDC12F50067F2D7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		D0D3FE601EDEF0F600E172E2 /* QYAvgSpeedNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QYAvgSpeedNode.swift; sourceTree = "<group>"; };
+		D0E4E75D1EDF094600C05A0E /* QYScoreBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QYScoreBoard.swift; sourceTree = "<group>"; };
+		D0E4E75F1EDF0EC200C05A0E /* QYRandomHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QYRandomHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,14 +71,17 @@
 			isa = PBXGroup;
 			children = (
 				D038D5E81EDC12BF0067F2D7 /* AppDelegate.swift */,
+				D0E4E75D1EDF094600C05A0E /* QYScoreBoard.swift */,
+				D0E4E75F1EDF0EC200C05A0E /* QYRandomHelper.swift */,
 				D038D5EA1EDC12C00067F2D7 /* GameScene.sks */,
-				D038D5EC1EDC12C00067F2D7 /* Actions.sks */,
 				D038D5EE1EDC12C00067F2D7 /* GameScene.swift */,
+				D0D3FE601EDEF0F600E172E2 /* QYAvgSpeedNode.swift */,
 				D038D5F01EDC12C00067F2D7 /* GameViewController.swift */,
 				D038D5F21EDC12C00067F2D7 /* Main.storyboard */,
 				D038D5F51EDC12C00067F2D7 /* Assets.xcassets */,
 				D038D5F71EDC12C00067F2D7 /* LaunchScreen.storyboard */,
 				D038D5FA1EDC12C00067F2D7 /* Info.plist */,
+				D038D6061EDC12F10067F2D7 /* InfoPlist.strings */,
 			);
 			path = "Saving Qu Yuan";
 			sourceTree = "<group>";
@@ -117,6 +130,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = D038D5DC1EDC12BF0067F2D7;
 			productRefGroup = D038D5E61EDC12BF0067F2D7 /* Products */;
@@ -134,10 +148,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D038D5F41EDC12C00067F2D7 /* Main.storyboard in Resources */,
+				D038D6041EDC12F10067F2D7 /* InfoPlist.strings in Resources */,
 				D038D5EB1EDC12C00067F2D7 /* GameScene.sks in Resources */,
 				D038D5F61EDC12C00067F2D7 /* Assets.xcassets in Resources */,
 				D038D5F91EDC12C00067F2D7 /* LaunchScreen.storyboard in Resources */,
-				D038D5ED1EDC12C00067F2D7 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,7 +164,10 @@
 			files = (
 				D038D5EF1EDC12C00067F2D7 /* GameScene.swift in Sources */,
 				D038D5F11EDC12C00067F2D7 /* GameViewController.swift in Sources */,
+				D0E4E7601EDF0EC200C05A0E /* QYRandomHelper.swift in Sources */,
+				D0D3FE611EDEF0F600E172E2 /* QYAvgSpeedNode.swift in Sources */,
 				D038D5E91EDC12BF0067F2D7 /* AppDelegate.swift in Sources */,
+				D0E4E75E1EDF094600C05A0E /* QYScoreBoard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,6 +178,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D038D5F31EDC12C00067F2D7 /* Base */,
+				D038D6001EDC12D70067F2D7 /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -169,8 +187,19 @@
 			isa = PBXVariantGroup;
 			children = (
 				D038D5F81EDC12C00067F2D7 /* Base */,
+				D038D6011EDC12D70067F2D7 /* zh-Hant */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		D038D6061EDC12F10067F2D7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D038D6051EDC12F10067F2D7 /* Base */,
+				D038D6071EDC12F30067F2D7 /* en */,
+				D038D6081EDC12F50067F2D7 /* zh-Hant */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -180,6 +209,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -230,6 +260,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -314,6 +345,7 @@
 				D038D5FF1EDC12C00067F2D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
