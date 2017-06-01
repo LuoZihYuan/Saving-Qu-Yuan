@@ -65,7 +65,9 @@ class GameScene: SKScene {
         
         if characterHooked {
             if !self.frame.intersects(mainCharacter.frame) {
-                mainCharacter.removeFromParent()
+                let gameMenu = SKScene(fileNamed: "GameMenu")!
+                gameMenu.scaleMode = .aspectFill
+                view?.presentScene(gameMenu, transition: SKTransition.doorsOpenHorizontal(withDuration: TimeInterval(2)))
             }
         }
         
