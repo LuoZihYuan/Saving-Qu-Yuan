@@ -64,7 +64,7 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         
         if characterHooked {
-            if !self.frame.contains(mainCharacter.frame) {
+            if !self.frame.intersects(mainCharacter.frame) {
                 mainCharacter.removeFromParent()
             }
         }
@@ -77,7 +77,7 @@ class GameScene: SKScene {
             if self.mainCharacter.frame.contains(target.frame) {
                 self.scoreBoard.add()
                 target.removeFromParent()
-            } else if !self.frame.contains(target.frame) {
+            } else if !self.frame.intersects(target.frame) {
                 target.removeFromParent()
             }
         }
@@ -96,7 +96,7 @@ class GameScene: SKScene {
                 self.isUserInteractionEnabled = false
                 self.mainCharacter.position = target.position
                 
-            } else if !self.frame.contains(target.frame) {
+            } else if !self.frame.intersects(target.frame) {
                 
                 if target.avgSpeed.y < 0 {
                     target.avgSpeed.y = abs(target.avgSpeed.y)
