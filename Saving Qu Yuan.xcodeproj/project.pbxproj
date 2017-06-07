@@ -102,8 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				D038D5F01EDC12C00067F2D7 /* GameViewController.swift */,
-				D038D5EE1EDC12C00067F2D7 /* GameScene.swift */,
 				D09976D31EDFB0DB00EAF784 /* GameMenu.swift */,
+				D038D5EE1EDC12C00067F2D7 /* GameScene.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

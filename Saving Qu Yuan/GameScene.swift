@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import CoreMotion
 import GameplayKit
 
 class GameScene: SKScene {
@@ -14,14 +15,29 @@ class GameScene: SKScene {
     var scoreBoard = QYScoreBoard()
     var mainCharacter = SKSpriteNode()
     
+    fileprivate let motionManager = CMMotionManager()
     fileprivate var characterHooked = false
     fileprivate var characterSelected = false
     fileprivate var mainCharWidth: CGFloat = 0.0
-      
+    
     override func didMove(to view: SKView) {
         mainCharacter = self.childNode(withName: "mainCharacter") as! SKSpriteNode
         mainCharWidth = mainCharacter.frame.size.width
         
+        generateDumplings()
+        generateHooks()
+        
+        let constant = 180.0 / Double.pi
+        motionManager.startDeviceMotionUpdates(to: OperationQueue()) { (motion, error) in
+            if motion != nil {
+                let rollDegree = motion!.attitude.roll * constant
+                print(rollDegree)
+            }
+        }
+        
+    }
+    
+    fileprivate func generateDumplings() {
         let dumplingSpawnCD = SKAction.wait(forDuration: 0.2, withRange: 0.2)
         let spawnDumpling = SKAction.run {
             
@@ -40,8 +56,9 @@ class GameScene: SKScene {
         }
         let dumplingSequence = SKAction.sequence([dumplingSpawnCD, spawnDumpling])
         self.run(SKAction.repeatForever(dumplingSequence))
-        
-        
+    }
+    
+    fileprivate func generateHooks() {
         let hoookSpawnCD = SKAction.wait(forDuration: 12, withRange: 10)
         let spawnHook = SKAction.run {
             
@@ -67,7 +84,7 @@ class GameScene: SKScene {
             if !self.frame.intersects(mainCharacter.frame) {
                 let gameMenu = SKScene(fileNamed: "GameMenu")!
                 gameMenu.scaleMode = .aspectFill
-                view?.presentScene(gameMenu, transition: SKTransition.doorsOpenHorizontal(withDuration: TimeInterval(2)))
+                view?.presentScene(gameMenu, transition: SKTransition.crossFade(withDuration: TimeInterval(0.5)))
             }
         }
         
@@ -92,6 +109,7 @@ class GameScene: SKScene {
             if self.mainCharacter.frame.contains(target.frame) {
                 
                 self.characterHooked = true
+                self.motionManager.stopDeviceMotionUpdates()
                 
                 target.avgSpeed.y = abs(target.avgSpeed.y)
                 self.characterSelected = false
