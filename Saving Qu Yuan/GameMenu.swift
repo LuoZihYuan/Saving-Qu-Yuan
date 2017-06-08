@@ -11,10 +11,16 @@ import SpriteKit
 
 class GameMenu: SKScene {
     
+    fileprivate let backgroundMusic = SKAudioNode(fileNamed: "three inch heaven.mp3")
     fileprivate var targetNode: SKNode?
     
     override func didMove(to view: SKView) {
-        
+        backgroundMusic.autoplayLooped = true
+        addChild(backgroundMusic)
+    }
+    
+    override func willMove(from view: SKView) {
+        backgroundMusic.run(SKAction.stop())
     }
     
     func forwardToGameScene() {
@@ -30,7 +36,7 @@ class GameMenu: SKScene {
         }
         
         if let name = targetNode?.name {
-            if name == "settings" || name == "scoreboard" {
+            if name == "settings" || name == "scoreboard" || name == "speaker" {
                 targetNode!.run(SKAction.scale(to: 0.9, duration: TimeInterval(0.05)))
             }
         }
@@ -48,7 +54,7 @@ class GameMenu: SKScene {
             return
         }
         if let name = targetNode?.name {
-            if name == "settings" || name == "scoreboard" {
+            if name == "settings" || name == "scoreboard" || name == "speaker" {
                 targetNode!.run(SKAction.scale(to: 1.0, duration: TimeInterval(0.05)))
             }
         }
@@ -68,6 +74,9 @@ class GameMenu: SKScene {
                 targetNode!.run(SKAction.scale(to: 1.0, duration: TimeInterval(0.05)))
                 
             } else if name == "scoreboard" {
+                targetNode!.run(SKAction.scale(to: 1.0, duration: TimeInterval(0.05)))
+                
+            } else if name == "speaker" {
                 targetNode!.run(SKAction.scale(to: 1.0, duration: TimeInterval(0.05)))
                 
             }
@@ -90,6 +99,8 @@ class GameMenu: SKScene {
             } else if name == "scoreboard" {
                 targetNode!.run(SKAction.scale(to: 1.0, duration: TimeInterval(0.05)))
                 
+            } else if name == "speaker" {
+                targetNode!.run(SKAction.scale(to: 1.0, duration: TimeInterval(0.05)))
             }
         }
     }

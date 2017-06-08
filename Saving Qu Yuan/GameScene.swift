@@ -95,8 +95,8 @@ class GameScene: SKScene {
     
     // MARK: - SKScene Lifecycle
     override func didMove(to view: SKView) {
+        
         mainCharacter = self.childNode(withName: "mainCharacter") as! SKSpriteNode
-        mainCharWidth = mainCharacter.frame.size.width
         
         setupDumplings()
         setupHooks()
