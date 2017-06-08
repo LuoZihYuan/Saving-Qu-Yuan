@@ -20,24 +20,8 @@ class GameScene: SKScene {
     fileprivate var characterSelected = false
     fileprivate var mainCharWidth: CGFloat = 0.0
     
-    override func didMove(to view: SKView) {
-        mainCharacter = self.childNode(withName: "mainCharacter") as! SKSpriteNode
-        mainCharWidth = mainCharacter.frame.size.width
-        
-        generateDumplings()
-        generateHooks()
-        
-        let constant = 180.0 / Double.pi
-        motionManager.startDeviceMotionUpdates(to: OperationQueue()) { (motion, error) in
-            if motion != nil {
-                let rollDegree = motion!.attitude.roll * constant
-                print(rollDegree)
-            }
-        }
-        
-    }
-    
-    fileprivate func generateDumplings() {
+    // MARK: - Setup
+    fileprivate func setupDumplings() {
         let dumplingSpawnCD = SKAction.wait(forDuration: 0.2, withRange: 0.2)
         let spawnDumpling = SKAction.run {
             
@@ -58,7 +42,7 @@ class GameScene: SKScene {
         self.run(SKAction.repeatForever(dumplingSequence))
     }
     
-    fileprivate func generateHooks() {
+    fileprivate func setupHooks() {
         let hoookSpawnCD = SKAction.wait(forDuration: 12, withRange: 10)
         let spawnHook = SKAction.run {
             
@@ -76,6 +60,47 @@ class GameScene: SKScene {
         }
         let hookSequence = SKAction.sequence([hoookSpawnCD, spawnHook])
         self.run(SKAction.repeatForever(hookSequence))
+    }
+    
+    fileprivate func setupMotionManager() {
+        let constant = 180.0 / Double.pi
+        motionManager.startDeviceMotionUpdates(to: OperationQueue()) { (motion, error) in
+            // avoid conflict between screen touch and motion manager
+            if self.characterSelected {
+                return
+            }
+            
+            if motion != nil {
+                
+                // degree of roll turns inaccurate when pitch gets greater than 80.0 or less than -80.0 degrees
+                let pitchDeg = motion!.attitude.pitch * constant
+                if abs(pitchDeg) > 80.0 {
+                    return
+                }
+                let rollDeg = motion!.attitude.roll * constant
+                // the closer the absolute value of degrees gets to 90.0 degrees, the steeper the phone is
+                let distance = abs(90.0 - abs(rollDeg))
+                // categorize distance into 8 speed levels
+                let speed = 8 - (Int(distance) / 10)
+                let maxSpeed = min(speed, 6)
+                let velocity = (rollDeg >= 0) ? maxSpeed: -maxSpeed
+                let nextPostion = CGPoint(x: self.mainCharacter.position.x + CGFloat(velocity * 6),
+                                          y: self.mainCharacter.position.y)
+                if self.frame.contains(nextPostion) {
+                    self.mainCharacter.position = nextPostion
+                }
+            }
+        }
+    }
+    
+    // MARK: - SKScene Lifecycle
+    override func didMove(to view: SKView) {
+        mainCharacter = self.childNode(withName: "mainCharacter") as! SKSpriteNode
+        mainCharWidth = mainCharacter.frame.size.width
+        
+        setupDumplings()
+        setupHooks()
+        setupMotionManager()
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -127,8 +152,7 @@ class GameScene: SKScene {
         }
     }
     
-    // MARK: - Gesture
-    
+    // MARK: - SKScene Gesture
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
             for node in self.nodes(at: t.location(in: self)) {
@@ -142,13 +166,8 @@ class GameScene: SKScene {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if characterSelected {
-            let halfWidth = mainCharWidth / 2
             for t in touches {
-                var leftPos = t.location(in: self)
-                leftPos.x -= halfWidth
-                var rightPos = t.location(in: self)
-                rightPos.x += halfWidth
-                if self.frame.contains(leftPos) && self.frame.contains(rightPos){
+                if self.frame.contains(t.location(in: self)){
                     mainCharacter.position.x = t.location(in: self).x
                 }
             }
