@@ -12,10 +12,13 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var userDefaults = UserDefaults.standard
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let defaultSettingsPath = Bundle.main.path(forResource: "QYDefaultSettings", ofType: "plist")
+        let defaultSettings = NSDictionary(contentsOfFile: defaultSettingsPath!) as! [String : Any]
+        userDefaults.register(defaults: defaultSettings)
         return true
     }
 

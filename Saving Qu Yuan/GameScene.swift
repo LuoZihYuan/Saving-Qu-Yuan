@@ -19,7 +19,12 @@ class GameScene: SKScene {
         Storage
      */
     fileprivate let userDefaults = UserDefaults.standard
-    
+    private var mute: Bool {
+        get { return userDefaults.value(forKey: "Mute") as! Bool }
+    }
+    private var controlType: QYGameControlType {
+        get { return QYGameControlType(rawValue: userDefaults.value(forKey: "ControlType") as! Int)! }
+    }
     
     /*!
         Main Character
@@ -49,13 +54,21 @@ class GameScene: SKScene {
     
     fileprivate var scoreLabel: SKLabelNode!
     
-    fileprivate var highestScore: Int = 0
+    fileprivate var highestScore: Int {
+        get {
+            return userDefaults.value(forKey: "HighestScore_" + String(describing: controlType)) as! Int
+        }
+        set {
+            maxScoreLabel.text = "\(newValue)"
+            userDefaults.set(newValue, forKey: "HighestScore_" + String(describing: controlType))
+        }
+    }
     
     fileprivate var score: Int = 0 {
         didSet {
             scoreLabel.text = "\(score)"
-            if Int(maxScoreLabel.text!)! < score {
-                maxScoreLabel.text = "\(score)"
+            if score > highestScore {
+                highestScore = score
             }
         }
     }
@@ -71,11 +84,21 @@ class GameScene: SKScene {
         
         mainCharacter = self.childNode(withName: "mainCharacter") as! SKSpriteNode
         maxScoreLabel = self.childNode(withName: "max_score") as! SKLabelNode
+        maxScoreLabel.text = "\(highestScore)"
         scoreLabel = self.childNode(withName: "score") as! SKLabelNode
         
+        switch controlType {
+        case .Tilt:
+            isUserInteractionEnabled = false
+            setupMotionManager()
+        case .Touch:
+            isUserInteractionEnabled = true
+        }
+        if !mute {
+            setupBackgroundSound()
+        }
         setupDumplings()
         setupHooks()
-        setupMotionManager()
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -100,6 +123,9 @@ class GameScene: SKScene {
             }
             
             if self.mainCharacter.frame.contains(target.position) {
+                if !self.mute {
+                    self.run(SKAction.playSoundFileNamed("crunch.m4a", waitForCompletion: false))
+                }
                 self.score += 1
                 target.removeFromParent()
             }
@@ -209,6 +235,14 @@ class GameScene: SKScene {
         }
         let hookSequence = SKAction.sequence([hoookSpawnCD, spawnHook])
         self.run(SKAction.repeatForever(hookSequence), withKey: QYGameSceneHookProductionKey)
+    }
+    
+    private func setupBackgroundSound() {
+        print("hihi")
+        let soundSpawnCD = SKAction.wait(forDuration: 10, withRange: 3)
+        let newSound = SKAction.playSoundFileNamed("bubble.m4a", waitForCompletion: false)
+        let soundSequence = SKAction.sequence([newSound, soundSpawnCD])
+        self.run(SKAction.repeatForever(soundSequence))
     }
     
     // MARK: - SKScene Gesture

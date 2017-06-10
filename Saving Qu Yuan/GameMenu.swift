@@ -12,36 +12,91 @@ import AVFoundation
 
 class GameMenu: SKScene {
     
-    private var audioPlayer: AVAudioPlayer?
-    fileprivate var targetNode: SKNode?
-    
-    // MARK: - SKScene LifeCycle
-    override func didMove(to view: SKView) {
-        setupAudioPlayer()
-        guard audioPlayer != nil else { return }
-        audioPlayer!.prepareToPlay()
-        audioPlayer!.play()
+    // MARK: Variables
+    fileprivate var userDefaults = UserDefaults.standard
+    fileprivate var audioPlayer: AVAudioPlayer?
+    fileprivate var speakerNode: SKSpriteNode!
+    fileprivate var controlNode: SKSpriteNode!
+    private var targetNode: SKNode?
+    private var mute: Bool {
+        get {
+            return userDefaults.value(forKey: "Mute") as! Bool
+        }
+        set {
+            userDefaults.set(newValue, forKey: "Mute")
+            if newValue {
+                speakerNode.texture = SKTexture(imageNamed: "speakerOff_icon")
+                audioPlayer?.pause()
+            } else {
+                speakerNode.texture = SKTexture(imageNamed: "speakerOn_icon")
+                audioPlayer?.play()
+            }
+        }
     }
-    
-    override func willMove(from view: SKView) {
-        if audioPlayer != nil {
-            audioPlayer!.setVolume(0, fadeDuration: 1.0)
+    private var controlType: QYGameControlType {
+        get {
+            return QYGameControlType(rawValue: userDefaults.value(forKey: "ControlType") as! Int)!
+        }
+        set {
+            userDefaults.set(newValue.rawValue, forKey: "ControlType")
+            switch newValue {
+            case .Tilt:
+                controlNode.texture = SKTexture(imageNamed: "tilt_icon")
+            case .Touch:
+                controlNode.texture = SKTexture(imageNamed: "touch_icon")
+            }
         }
     }
     
-    // MARK: Setup
-    func setupAudioPlayer() {
+    // MARK: - SKScene LifeCycle
+    override func didMove(to view: SKView) {
+        speakerNode = self.childNode(withName: "speaker") as! SKSpriteNode
+        controlNode = self.childNode(withName: "control") as! SKSpriteNode
+        
+        setupControl()
+        setupAudioPlayer()
+        if audioPlayer != nil && !mute {
+            audioPlayer!.prepareToPlay()
+            audioPlayer!.play()
+        }
+        
+    }
+    
+    override func willMove(from view: SKView) {
+        audioPlayer?.stop()
+    }
+    
+    // MARK: setup
+    private func setupAudioPlayer() {
         let backgroundMusicURL = URL(fileURLWithPath: Bundle.main.path(forResource: "three inch heaven",
                                                                        ofType: "mp3")!)
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: backgroundMusicURL)
+            audioPlayer?.numberOfLoops = -1
         } catch let error as NSError {
             print("Error: \(error.description)")
         }
+        if mute {
+            speakerNode.texture = SKTexture(imageNamed: "speakerOff_icon")
+        } else {
+            speakerNode.texture = SKTexture(imageNamed: "speakerOn_icon")
+        }
     }
     
-    // MARK: Other
+    private func setupControl() {
+        switch controlType {
+        case .Tilt:
+            controlNode.texture = SKTexture(imageNamed: "tilt_icon")
+        case .Touch:
+            controlNode.texture = SKTexture(imageNamed: "touch_icon")
+        }
+    }
+    
+    // MARK: other
     func forwardToGameScene() {
+        if !mute {
+            run(SKAction.playSoundFileNamed("drum.mp3", waitForCompletion: false))
+        }
         let gameScene = SKScene(fileNamed: "GameScene")!
         gameScene.scaleMode = .aspectFill
         view?.presentScene(gameScene, transition: SKTransition.crossFade(withDuration: 0.8))
@@ -54,7 +109,7 @@ class GameMenu: SKScene {
         }
         
         if let name = targetNode?.name {
-            if name == "settings" || name == "speaker" || name == "control" {
+            if name == "speaker" || name == "control" {
                 targetNode!.run(SKAction.scale(to: 0.9, duration: 0.05))
             }
         }
@@ -72,7 +127,7 @@ class GameMenu: SKScene {
             return
         }
         if let name = targetNode?.name {
-            if name == "settings" || name == "speaker" || name == "control" {
+            if name == "speaker" || name == "control" {
                 targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
             }
         }
@@ -88,14 +143,18 @@ class GameMenu: SKScene {
                 self.isUserInteractionEnabled = false
                 forwardToGameScene()
                 
-            } else if name == "settings" {
-                targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
-                
             } else if name == "speaker" {
                 targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
+                mute = !mute
                 
             } else if name == "control" {
                 targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
+                switch controlType {
+                case .Tilt:
+                    controlType = .Touch
+                case .Touch:
+                    controlType = .Tilt
+                }
             }
         }
     }
@@ -110,13 +169,18 @@ class GameMenu: SKScene {
                 self.isUserInteractionEnabled = false
                 forwardToGameScene()
                 
-            } else if name == "settings" {
-                targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
-                
             } else if name == "speaker" {
                 targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
+                mute = !mute
+                
             } else if name == "control" {
                 targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
+                switch controlType {
+                case .Tilt:
+                    controlType = .Touch
+                case .Touch:
+                    controlType = .Tilt
+                }
             }
         }
     }
