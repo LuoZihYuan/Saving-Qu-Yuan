@@ -15,11 +15,15 @@
 		D038D5F61EDC12C00067F2D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D038D5F51EDC12C00067F2D7 /* Assets.xcassets */; };
 		D038D5F91EDC12C00067F2D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D038D5F71EDC12C00067F2D7 /* LaunchScreen.storyboard */; };
 		D038D6041EDC12F10067F2D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D038D6061EDC12F10067F2D7 /* InfoPlist.strings */; };
+		D08A05D21EEBF84500463AF7 /* QYDefaultSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D08A05D11EEBF84500463AF7 /* QYDefaultSettings.plist */; };
+		D08A05D41EEC0C4900463AF7 /* QYGameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08A05D31EEC0C4900463AF7 /* QYGameModel.swift */; };
+		D08A05D71EEC3C9A00463AF7 /* drum.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D08A05D61EEC3C9A00463AF7 /* drum.mp3 */; };
+		D08A05D81EEC3CA000463AF7 /* crunch.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D08A05D51EEC3BCF00463AF7 /* crunch.m4a */; };
+		D08A05DA1EEC436E00463AF7 /* bubble.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D08A05D91EEC3DF700463AF7 /* bubble.m4a */; };
 		D09976D21EDFB0BA00EAF784 /* GameMenu.sks in Resources */ = {isa = PBXBuildFile; fileRef = D09976D11EDFB0BA00EAF784 /* GameMenu.sks */; };
 		D09976D41EDFB0DB00EAF784 /* GameMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09976D31EDFB0DB00EAF784 /* GameMenu.swift */; };
 		D0B5A6B81EE97F6000594719 /* three inch heaven.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0B5A6B71EE97F6000594719 /* three inch heaven.mp3 */; };
 		D0D3FE611EDEF0F600E172E2 /* QYAvgSpeedNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D3FE601EDEF0F600E172E2 /* QYAvgSpeedNode.swift */; };
-		D0E4E75E1EDF094600C05A0E /* QYScoreBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E4E75D1EDF094600C05A0E /* QYScoreBoard.swift */; };
 		D0E4E7601EDF0EC200C05A0E /* QYRandomHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E4E75F1EDF0EC200C05A0E /* QYRandomHelper.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,11 +42,15 @@
 		D038D6051EDC12F10067F2D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D038D6071EDC12F30067F2D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D038D6081EDC12F50067F2D7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		D08A05D11EEBF84500463AF7 /* QYDefaultSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = QYDefaultSettings.plist; sourceTree = "<group>"; };
+		D08A05D31EEC0C4900463AF7 /* QYGameModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QYGameModel.swift; sourceTree = "<group>"; };
+		D08A05D51EEC3BCF00463AF7 /* crunch.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = crunch.m4a; sourceTree = "<group>"; };
+		D08A05D61EEC3C9A00463AF7 /* drum.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drum.mp3; sourceTree = "<group>"; };
+		D08A05D91EEC3DF700463AF7 /* bubble.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = bubble.m4a; sourceTree = "<group>"; };
 		D09976D11EDFB0BA00EAF784 /* GameMenu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameMenu.sks; sourceTree = "<group>"; };
 		D09976D31EDFB0DB00EAF784 /* GameMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameMenu.swift; sourceTree = "<group>"; };
 		D0B5A6B71EE97F6000594719 /* three inch heaven.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "three inch heaven.mp3"; sourceTree = "<group>"; };
 		D0D3FE601EDEF0F600E172E2 /* QYAvgSpeedNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QYAvgSpeedNode.swift; sourceTree = "<group>"; };
-		D0E4E75D1EDF094600C05A0E /* QYScoreBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QYScoreBoard.swift; sourceTree = "<group>"; };
 		D0E4E75F1EDF0EC200C05A0E /* QYRandomHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QYRandomHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,10 +89,10 @@
 				D09976CE1EDFB00F00EAF784 /* Controller */,
 				D09976CF1EDFB01600EAF784 /* Model */,
 				D09976D01EDFB01C00EAF784 /* Helper */,
-				D0B5A6B41EE97A8E00594719 /* Music */,
-				D038D5F51EDC12C00067F2D7 /* Assets.xcassets */,
-				D038D5FA1EDC12C00067F2D7 /* Info.plist */,
+				D0B5A6B41EE97A8E00594719 /* Resource */,
+				D08A05D11EEBF84500463AF7 /* QYDefaultSettings.plist */,
 				D038D6061EDC12F10067F2D7 /* InfoPlist.strings */,
+				D038D5FA1EDC12C00067F2D7 /* Info.plist */,
 			);
 			path = "Saving Qu Yuan";
 			sourceTree = "<group>";
@@ -114,6 +122,7 @@
 		D09976CF1EDFB01600EAF784 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D08A05D31EEC0C4900463AF7 /* QYGameModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -121,18 +130,21 @@
 		D09976D01EDFB01C00EAF784 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				D0E4E75D1EDF094600C05A0E /* QYScoreBoard.swift */,
 				D0E4E75F1EDF0EC200C05A0E /* QYRandomHelper.swift */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
 		};
-		D0B5A6B41EE97A8E00594719 /* Music */ = {
+		D0B5A6B41EE97A8E00594719 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				D038D5F51EDC12C00067F2D7 /* Assets.xcassets */,
 				D0B5A6B71EE97F6000594719 /* three inch heaven.mp3 */,
+				D08A05D61EEC3C9A00463AF7 /* drum.mp3 */,
+				D08A05D91EEC3DF700463AF7 /* bubble.m4a */,
+				D08A05D51EEC3BCF00463AF7 /* crunch.m4a */,
 			);
-			name = Music;
+			name = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,11 +209,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				D038D5F41EDC12C00067F2D7 /* Main.storyboard in Resources */,
+				D08A05D21EEBF84500463AF7 /* QYDefaultSettings.plist in Resources */,
+				D08A05D71EEC3C9A00463AF7 /* drum.mp3 in Resources */,
 				D0B5A6B81EE97F6000594719 /* three inch heaven.mp3 in Resources */,
 				D038D6041EDC12F10067F2D7 /* InfoPlist.strings in Resources */,
+				D08A05D81EEC3CA000463AF7 /* crunch.m4a in Resources */,
 				D038D5EB1EDC12C00067F2D7 /* GameScene.sks in Resources */,
 				D038D5F61EDC12C00067F2D7 /* Assets.xcassets in Resources */,
 				D09976D21EDFB0BA00EAF784 /* GameMenu.sks in Resources */,
+				D08A05DA1EEC436E00463AF7 /* bubble.m4a in Resources */,
 				D038D5F91EDC12C00067F2D7 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -214,12 +230,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D09976D41EDFB0DB00EAF784 /* GameMenu.swift in Sources */,
+				D08A05D41EEC0C4900463AF7 /* QYGameModel.swift in Sources */,
 				D038D5EF1EDC12C00067F2D7 /* GameScene.swift in Sources */,
 				D038D5F11EDC12C00067F2D7 /* GameViewController.swift in Sources */,
 				D0E4E7601EDF0EC200C05A0E /* QYRandomHelper.swift in Sources */,
 				D0D3FE611EDEF0F600E172E2 /* QYAvgSpeedNode.swift in Sources */,
 				D038D5E91EDC12BF0067F2D7 /* AppDelegate.swift in Sources */,
-				D0E4E75E1EDF094600C05A0E /* QYScoreBoard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
