@@ -8,36 +8,54 @@
 
 import UIKit
 import SpriteKit
+import AVFoundation
 
 class GameMenu: SKScene {
     
-    fileprivate let backgroundMusic = SKAudioNode(fileNamed: "three inch heaven.mp3")
+    private var audioPlayer: AVAudioPlayer?
     fileprivate var targetNode: SKNode?
     
+    // MARK: - SKScene LifeCycle
     override func didMove(to view: SKView) {
-        backgroundMusic.autoplayLooped = true
-        addChild(backgroundMusic)
+        setupAudioPlayer()
+        guard audioPlayer != nil else { return }
+        audioPlayer!.prepareToPlay()
+        audioPlayer!.play()
     }
     
     override func willMove(from view: SKView) {
-        backgroundMusic.run(SKAction.stop())
+        if audioPlayer != nil {
+            audioPlayer!.setVolume(0, fadeDuration: 1.0)
+        }
     }
     
+    // MARK: Setup
+    func setupAudioPlayer() {
+        let backgroundMusicURL = URL(fileURLWithPath: Bundle.main.path(forResource: "three inch heaven",
+                                                                       ofType: "mp3")!)
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: backgroundMusicURL)
+        } catch let error as NSError {
+            print("Error: \(error.description)")
+        }
+    }
+    
+    // MARK: Other
     func forwardToGameScene() {
         let gameScene = SKScene(fileNamed: "GameScene")!
         gameScene.scaleMode = .aspectFill
-        view?.presentScene(gameScene, transition: SKTransition.crossFade(withDuration: TimeInterval(0.8)))
+        view?.presentScene(gameScene, transition: SKTransition.crossFade(withDuration: 0.8))
     }
     
-    // MARK: Touch Related
+    // MARK: - SKScene Gesture
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
             targetNode = atPoint(t.location(in: self))
         }
         
         if let name = targetNode?.name {
-            if name == "settings" || name == "scoreboard" || name == "speaker" {
-                targetNode!.run(SKAction.scale(to: 0.9, duration: TimeInterval(0.05)))
+            if name == "settings" || name == "speaker" || name == "control" {
+                targetNode!.run(SKAction.scale(to: 0.9, duration: 0.05))
             }
         }
     }
@@ -54,8 +72,8 @@ class GameMenu: SKScene {
             return
         }
         if let name = targetNode?.name {
-            if name == "settings" || name == "scoreboard" || name == "speaker" {
-                targetNode!.run(SKAction.scale(to: 1.0, duration: TimeInterval(0.05)))
+            if name == "settings" || name == "speaker" || name == "control" {
+                targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
             }
         }
         targetNode = nil
@@ -71,14 +89,13 @@ class GameMenu: SKScene {
                 forwardToGameScene()
                 
             } else if name == "settings" {
-                targetNode!.run(SKAction.scale(to: 1.0, duration: TimeInterval(0.05)))
-                
-            } else if name == "scoreboard" {
-                targetNode!.run(SKAction.scale(to: 1.0, duration: TimeInterval(0.05)))
+                targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
                 
             } else if name == "speaker" {
-                targetNode!.run(SKAction.scale(to: 1.0, duration: TimeInterval(0.05)))
+                targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
                 
+            } else if name == "control" {
+                targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
             }
         }
     }
@@ -94,13 +111,12 @@ class GameMenu: SKScene {
                 forwardToGameScene()
                 
             } else if name == "settings" {
-                targetNode!.run(SKAction.scale(to: 1.0, duration: TimeInterval(0.05)))
-                
-            } else if name == "scoreboard" {
-                targetNode!.run(SKAction.scale(to: 1.0, duration: TimeInterval(0.05)))
+                targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
                 
             } else if name == "speaker" {
-                targetNode!.run(SKAction.scale(to: 1.0, duration: TimeInterval(0.05)))
+                targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
+            } else if name == "control" {
+                targetNode!.run(SKAction.scale(to: 1.0, duration: 0.05))
             }
         }
     }

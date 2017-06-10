@@ -10,60 +10,128 @@ import SpriteKit
 import CoreMotion
 import GameplayKit
 
+fileprivate let QYGameSceneHookProductionKey = "QYGameSceneHookProductionKey"
+
 class GameScene: SKScene {
     
-    var scoreBoard = QYScoreBoard()
-    var mainCharacter = SKSpriteNode()
+    // MARK: - Variables
+    /*!
+        Storage
+     */
+    fileprivate let userDefaults = UserDefaults.standard
     
-    fileprivate let motionManager = CMMotionManager()
-    fileprivate var characterHooked = false
+    
+    /*!
+        Main Character
+     */
+    fileprivate var mainCharacter: SKSpriteNode!
+    
     fileprivate var characterSelected = false
-    fileprivate var mainCharWidth: CGFloat = 0.0
+    
+    fileprivate var characterHooked: Bool = false {
+        didSet {
+            if characterHooked {
+                isUserInteractionEnabled = false
+                characterSelected = false
+                motionManager.stopDeviceMotionUpdates()
+                removeAction(forKey: QYGameSceneHookProductionKey)
+            }
+        }
+    }
+    
+    private var characterHookedSpeed: CGFloat = 0.0
+    
+    
+    /*!
+        Score
+     */
+    fileprivate var maxScoreLabel: SKLabelNode!
+    
+    fileprivate var scoreLabel: SKLabelNode!
+    
+    fileprivate var highestScore: Int = 0
+    
+    fileprivate var score: Int = 0 {
+        didSet {
+            scoreLabel.text = "\(score)"
+            if Int(maxScoreLabel.text!)! < score {
+                maxScoreLabel.text = "\(score)"
+            }
+        }
+    }
+    
+    /*!
+        Motion
+     */
+    fileprivate let motionManager = CMMotionManager()
+    
+    
+    // MARK: - SKScene Lifecycle
+    override func didMove(to view: SKView) {
+        
+        mainCharacter = self.childNode(withName: "mainCharacter") as! SKSpriteNode
+        maxScoreLabel = self.childNode(withName: "max_score") as! SKLabelNode
+        scoreLabel = self.childNode(withName: "score") as! SKLabelNode
+        
+        setupDumplings()
+        setupHooks()
+        setupMotionManager()
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        
+        if characterHooked {
+            mainCharacter.position.y += characterHookedSpeed
+            if !self.frame.intersects(mainCharacter.frame) {
+                let gameMenu = SKScene(fileNamed: "GameMenu")!
+                gameMenu.scaleMode = .aspectFill
+                view?.presentScene(gameMenu, transition: SKTransition.crossFade(withDuration: TimeInterval(0.5)))
+            }
+        }
+        
+        enumerateChildNodes(withName: "riceDumpling") { (dumpling, stop) in
+            let target = dumpling as! QYAvgSpeedNode
+            target.position.y += target.avgSpeed.y
+            if !self.frame.intersects(target.frame) {
+                target.removeFromParent()
+            }
+            guard !self.characterHooked else {
+                return
+            }
+            
+            if self.mainCharacter.frame.contains(target.position) {
+                self.score += 1
+                target.removeFromParent()
+            }
+        }
+        
+        enumerateChildNodes(withName: "fishHook") { (hook, stop) in
+            let target = hook as! QYAvgSpeedNode
+            target.position.y += target.avgSpeed.y
+            
+            if !self.frame.intersects(target.frame) {
+                if target.avgSpeed.y < 0 {
+                    target.avgSpeed.y = abs(target.avgSpeed.y)
+                } else {
+                    target.removeFromParent()
+                }
+            }
+            guard !self.characterHooked else {
+                return
+            }
+            if self.mainCharacter.frame.contains(target.frame) {
+                self.characterHooked = true
+                target.avgSpeed.y = abs(target.avgSpeed.y)
+                self.characterHookedSpeed = target.avgSpeed.y
+            }
+        }
+    }
     
     // MARK: - Setup
-    fileprivate func setupDumplings() {
-        let dumplingSpawnCD = SKAction.wait(forDuration: 0.2, withRange: 0.2)
-        let spawnDumpling = SKAction.run {
-            
-            let newDumping = QYAvgSpeedNode(imageNamed: "riceDumpling")
-            
-            let randomX = QYRandomHelper.randomCGFloat(min: -335.0, max: 335.0)
-            let randomSpeedY = QYRandomHelper.randomCGFloat(min: -5.0, max: -25.0)
-            
-            newDumping.name = "riceDumpling"
-            newDumping.zPosition = 2.0
-            newDumping.position.x = randomX;    newDumping.position.y = 617.0
-            newDumping.size.width = 80.0;       newDumping.size.height = 80.0
-            newDumping.avgSpeed.x = 0.0;        newDumping.avgSpeed.y = randomSpeedY
-            
-            self.addChild(newDumping)
-        }
-        let dumplingSequence = SKAction.sequence([dumplingSpawnCD, spawnDumpling])
-        self.run(SKAction.repeatForever(dumplingSequence))
-    }
-    
-    fileprivate func setupHooks() {
-        let hoookSpawnCD = SKAction.wait(forDuration: 12, withRange: 10)
-        let spawnHook = SKAction.run {
-            
-            let newHook = QYAvgSpeedNode(imageNamed: "fishHook")
-            let randomX = QYRandomHelper.randomCGFloat(min: -335.0, max: 335.0)
-            let randomSpeedY = QYRandomHelper.randomCGFloat(min: -20.0, max: -30.0)
-            
-            newHook.name = "fishHook"
-            newHook.zPosition = 1.0
-            newHook.position.x = randomX;   newHook.position.y = 617.0
-            newHook.size.width = 80.0;      newHook.size.height = 80.0
-            newHook.avgSpeed.x = 0.0;       newHook.avgSpeed.y = randomSpeedY
-            
-            self.addChild(newHook)
-        }
-        let hookSequence = SKAction.sequence([hoookSpawnCD, spawnHook])
-        self.run(SKAction.repeatForever(hookSequence))
-    }
-    
-    fileprivate func setupMotionManager() {
+    private func setupMotionManager() {
+        
         let constant = 180.0 / Double.pi
+        
         motionManager.startDeviceMotionUpdates(to: OperationQueue()) { (motion, error) in
             // avoid conflict between screen touch and motion manager
             if self.characterSelected {
@@ -93,63 +161,54 @@ class GameScene: SKScene {
         }
     }
     
-    // MARK: - SKScene Lifecycle
-    override func didMove(to view: SKView) {
-        
-        mainCharacter = self.childNode(withName: "mainCharacter") as! SKSpriteNode
-        
-        setupDumplings()
-        setupHooks()
-        setupMotionManager()
+    private func setupDumplings() {
+        let dumplingSpawnCD = SKAction.wait(forDuration: 0.2, withRange: 0.2)
+        let spawnDumpling = SKAction.run {
+            
+            let newDumping = QYAvgSpeedNode(imageNamed: "riceDumpling")
+            
+            let randomX = QYRandomHelper.randomCGFloat(min: -335.0, max: 335.0)
+            let randomSpeedY = QYRandomHelper.randomCGFloat(min: -5.0, max: -25.0)
+            
+            newDumping.name = "riceDumpling"
+            newDumping.zPosition = 3.0
+            newDumping.position.x = randomX;    newDumping.position.y = 617.0
+            newDumping.size.width = 80.0;       newDumping.size.height = 80.0
+            newDumping.avgSpeed.x = 0.0;        newDumping.avgSpeed.y = randomSpeedY
+            
+            self.addChild(newDumping)
+        }
+        let dumplingSequence = SKAction.sequence([dumplingSpawnCD, spawnDumpling])
+        self.run(SKAction.repeatForever(dumplingSequence))
     }
     
-    override func update(_ currentTime: TimeInterval) {
-        
-        if characterHooked {
-            if !self.frame.intersects(mainCharacter.frame) {
-                let gameMenu = SKScene(fileNamed: "GameMenu")!
-                gameMenu.scaleMode = .aspectFill
-                view?.presentScene(gameMenu, transition: SKTransition.crossFade(withDuration: TimeInterval(0.5)))
+    private func setupHooks() {
+        let hoookSpawnCD = SKAction.wait(forDuration: 7, withRange: 5)
+        let spawnHook = SKAction.run {
+            
+            var newHooks: Array<QYAvgSpeedNode> = []
+            let hookAmount = QYRandomHelper.randomInt(min: 1, max: 4)
+            for _ in 1...hookAmount {
+                
+                let newHook = QYAvgSpeedNode(imageNamed: "fishHook")
+                let randomX = QYRandomHelper.randomCGFloat(min: -375.0, max: 375.0)
+                let randomSpeedY = QYRandomHelper.randomCGFloat(min: -20.0, max: -30.0)
+                
+                newHook.name = "fishHook"
+                newHook.zPosition = 2.0
+                newHook.position.x = randomX;   newHook.position.y = 617.0
+                newHook.size.width = 80.0;      newHook.size.height = 80.0
+                newHook.avgSpeed.x = 0.0;       newHook.avgSpeed.y = randomSpeedY
+                
+                newHooks.append(newHook)
+            }
+            
+            for hook in newHooks {
+                self.addChild(hook)
             }
         }
-        
-        enumerateChildNodes(withName: "riceDumpling") { (dumpling, stop) in
-            
-            let target = dumpling as! QYAvgSpeedNode
-            target.position.y += target.avgSpeed.y
-            
-            if self.mainCharacter.frame.contains(target.frame) {
-                self.scoreBoard.add()
-                target.removeFromParent()
-            } else if !self.frame.intersects(target.frame) {
-                target.removeFromParent()
-            }
-        }
-        
-        enumerateChildNodes(withName: "fishHook") { (hook, stop) in
-            
-            let target = hook as! QYAvgSpeedNode
-            target.position.y += target.avgSpeed.y
-            
-            if self.mainCharacter.frame.contains(target.frame) {
-                
-                self.characterHooked = true
-                self.motionManager.stopDeviceMotionUpdates()
-                
-                target.avgSpeed.y = abs(target.avgSpeed.y)
-                self.characterSelected = false
-                self.isUserInteractionEnabled = false
-                self.mainCharacter.position = target.position
-                
-            } else if !self.frame.intersects(target.frame) {
-                
-                if target.avgSpeed.y < 0 {
-                    target.avgSpeed.y = abs(target.avgSpeed.y)
-                } else {
-                    target.removeFromParent()
-                }
-            }
-        }
+        let hookSequence = SKAction.sequence([hoookSpawnCD, spawnHook])
+        self.run(SKAction.repeatForever(hookSequence), withKey: QYGameSceneHookProductionKey)
     }
     
     // MARK: - SKScene Gesture
